@@ -14,8 +14,9 @@
         http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
 
-    <context:component-scan base-package="com.kakaopay.government">
+    <context:component-scan base-package="com.kakaopay">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
     </context:component-scan>
 
     <mvc:annotation-driven />
@@ -28,12 +29,12 @@
         <property name="url" value="${dataSource.url}" />
         <property name="username" value="${dataSource.username}" />
         <property name="password" value="${dataSource.password}" />
-        <!-- cp 설정 -->
+        <!-- TODO: cp 설정 -->
     </bean>
 
     <!-- hibernate entity manager -->
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="persistenceUnitName" value="base" />
+<!--        <property name="persistenceUnitName" value="base" />-->
         <property name="dataSource" ref="dataSource" />
         <!-- entity scan -->
         <property name="packagesToScan" value="com.kakaopay.jpa.entity" />
@@ -46,8 +47,9 @@
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
                 <prop key="hibernate.format_sql">true</prop>
                 <prop key="hibernate.show_sql">true</prop><!-- 실행된 쿼리 출력 여부 -->
-                <!-- https://stackoverflow.com/questions/4307690/how-to-get-automatic-table-creation-working-in-spring-hibernate-jpa -->
-                <prop key="hibernate.hbm2ddl.auto">create-drop</prop> <!-- 프로젝트 종료시 drop -->
+                <!-- https://stackoverflow.com/questions/24727610/spring-boot-with-hibernate-generating-drop-constraint-errors-on-startup-with-h2 -->
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+
             </props>
         </property>
     </bean>
