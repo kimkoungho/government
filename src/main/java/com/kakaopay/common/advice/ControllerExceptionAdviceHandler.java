@@ -1,6 +1,7 @@
 package com.kakaopay.common.advice;
 
 import com.kakaopay.common.exceptioin.ApiException;
+import com.kakaopay.common.exceptioin.BadRequestException;
 import com.kakaopay.common.model.ApiExceptionResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestControllerAdvice
+@ControllerAdvice(annotations = RestController.class)
 @Order(999)
 public class ControllerExceptionAdviceHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(ControllerExceptionAdviceHandler.class);
@@ -24,11 +25,15 @@ public class ControllerExceptionAdviceHandler {
     public ApiExceptionResponse defaultExceptionHandler(Exception e) {
         LOGGER.error(e.getMessage(), e);
 
-        ApiException apiException = new ApiException(e.getClass().getName(), e.getMessage());
-
         ApiExceptionResponse apiExceptionResponse = new ApiExceptionResponse();
         apiExceptionResponse.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-        apiExceptionResponse.setApiException(apiException);
+        if(e instanceof ApiException){
+            apiExceptionResponse.setApiException((ApiException) e);
+        }else{
+            ApiException apiException = new ApiException(e.getClass().getName(), e.getMessage());
+            apiExceptionResponse.setApiException(apiException);
+        }
+
         return apiExceptionResponse;
     }
 
@@ -49,5 +54,15 @@ public class ControllerExceptionAdviceHandler {
         return apiExceptionResponse;
     }
 
+    @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ApiExceptionResponse badExceptionHandler(BadRequestException badRequestException){
+        LOGGER.error(badRequestException.getMessage(), badRequestException);
 
+        ApiExceptionResponse apiExceptionResponse = new ApiExceptionResponse();
+        apiExceptionResponse.setHttpStatus(HttpStatus.BAD_REQUEST);
+        apiExceptionResponse.setApiException(badRequestException);
+        return apiExceptionResponse;
+    }
 }

@@ -34,13 +34,13 @@ public class RateTypeTest {
         Assert.assertEquals(Double.doubleToLongBits(2.5), Double.doubleToLongBits(avgRate));
     }
 
-    @Test(expected = NumberFormatException.class)
+    @Test
     public void getAvgRate_1개_숫자변환오류() {
         String rateDesc = "2.5a%";
 
         RateType rateType = RateType.findBy(rateDesc);
 
-        Double avgRate = rateType.getAvgRate(rateDesc);
+        Assert.assertEquals(RateType.NONE, rateType);
     }
 
     @Test

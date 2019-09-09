@@ -1,6 +1,10 @@
 package com.kakaopay.common.exceptioin;
 
-public class ApiException extends RuntimeException{
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonIgnoreProperties(value = {"cause", "stackTrace", "message", "localizedMessage", "suppressed"}, ignoreUnknown = true)
+public class ApiException extends RuntimeException {
     private String exceptionCode;
 
     private String exceptionMessage;
@@ -19,6 +23,12 @@ public class ApiException extends RuntimeException{
         this.exceptionCode = apiExceptionCode.getCode();
         this.exceptionMessage = String.format(apiExceptionCode.getMessage(), target, key);
     }
+
+    @JsonProperty("exception")
+    public String getException(){
+        return this.getCause() != null ?  this.getCause().getClass().getName() : this.getClass().getName();
+    }
+
 
     public String getExceptionCode() {
         return exceptionCode;

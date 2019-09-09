@@ -4,12 +4,12 @@ import com.kakaopay.jpa.entity.RegionSupportEntity;
 import com.kakaopay.jpa.repository.RegionRepository;
 import com.kakaopay.jpa.repository.RegionSupportRepository;
 import com.kakaopay.region.model.inner.RegionSupportCsv;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +26,12 @@ public class RegionSaveServiceTest {
     private RegionSaveService regionSaveService;
 
     @Autowired
+    private RegionRepository regionRepository;
+
+    @Autowired
     private RegionSupportRepository regionSupportRepository;
 
-    //TODO
-    // error 는 테이블 생성전에 alter 를 시도하기 떄문
+    @Transactional
     @Test
     public void saveAll() {
         List<RegionSupportCsv> regionSupportCsvList = new ArrayList<RegionSupportCsv>(){

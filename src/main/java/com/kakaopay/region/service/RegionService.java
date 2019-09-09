@@ -3,6 +3,7 @@ package com.kakaopay.region.service;
 
 import com.kakaopay.common.exceptioin.ApiException;
 import com.kakaopay.common.exceptioin.ApiExceptionCode;
+import com.kakaopay.common.exceptioin.BadRequestException;
 import com.kakaopay.jpa.entity.RegionEntity;
 import com.kakaopay.jpa.entity.RegionSupportEntity;
 import com.kakaopay.jpa.repository.RegionRepository;
@@ -98,7 +99,7 @@ public class RegionService {
 
         Optional<RegionEntity> regionEntityOptional = regionRepository.findByName(regionName);
         if(!regionEntityOptional.isPresent()){
-            throw new ApiException(ApiExceptionCode.NOT_FOUND_UPDATE_TARGET, RegionEntity.class.getName(), regionName);
+            throw new BadRequestException(ApiExceptionCode.NOT_FOUND_UPDATE_TARGET, RegionEntity.class.getName(), regionName);
         }
 
         RegionSupportEntity regionSupportEntity = regionEntityOptional.get().getRegionSupportEntity();

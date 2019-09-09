@@ -1,7 +1,7 @@
 package com.kakaopay.common.exceptioin;
 
 public enum ApiExceptionCode {
-    NOT_FOUND_UPDATE_TARGET("NOT_FOUND_UPDATE_TARGET", "target: {}, key: {}")
+    NOT_FOUND_UPDATE_TARGET("NOT_FOUND_UPDATE_TARGET", "target: %s, key: %s")
     ;
 
     private String code;
