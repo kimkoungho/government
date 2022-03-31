@@ -11,7 +11,7 @@
 
     <properties>
         <java-version>1.8</java-version>
-        <org.springframework-version>5.0.2.RELEASE</org.springframework-version>
+        <org.springframework-version>5.3.18</org.springframework-version>
         <querydsl-version>4.1.3</querydsl-version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
